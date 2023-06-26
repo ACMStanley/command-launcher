@@ -1,0 +1,32 @@
+.inputForm {
+    display: flex;
+    flex-direction: column;
+
+    .inputField {
+        font-size: 28px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        input {
+            font-size:28px;
+            font-family: 'Roboto Flex', 'sans-serif';
+            border: none;
+            outline: none;
+            background: none;
+        }
+    }
+
+    .selectedInputField {
+        @extend .inputField;
+        background-color: #e0e0e0;
+    }
+
+    .validationError {
+        margin-top: 10px;
+        background-color: rgb(230, 69, 69);
+        color: white;
+        padding: 5px;
+        border-radius: 5px;
+    }
+}

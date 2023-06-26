@@ -1,0 +1,22 @@
+.commandList {
+    height: 1000px;
+    max-height: 66vh;
+    display: flex;
+
+    ol{
+        width: 100%;
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        .commandItem {
+            font-size: 32px;
+        }
+
+        .selectedCommandItem {
+            @extend .commandItem;
+            background-color: #e0e0e0;
+        }
+    }
+
+    
+}
