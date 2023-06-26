@@ -1,18 +1,17 @@
 import { AutoFocusedInput } from "../../../common/AutoFocusedInput";
-import { ZodOptional, ZodSchema } from "zod";
+import { ZodDate, ZodOptional, ZodSchema } from "zod";
 
 //Add custom inputs as needed
 export const buildZodInput = (type: ZodSchema,name: string,onChange: ((value: any) => void), isFocused: boolean) : JSX.Element => {
-    switch (type.constructor.name) {
-        //if encountering an optional type, unwrap it and attempt to resolve the type again
-        case "ZodOptional":
-            return buildZodInput((type as ZodOptional<any>).unwrap(),name,onChange,isFocused);
-        case "ZodDate":
-            return buildDateInput(name,onChange,isFocused);
-        //default to text input
-        default:
-            return buildTextInput(name,onChange,isFocused);
+    //if encountering an optional type, unwrap it and attempt to resolve the type again
+    if(type instanceof ZodOptional){
+        return buildZodInput(type.unwrap(),name,onChange,isFocused);
     }
+    if(type instanceof ZodDate){
+        return buildDateInput(name,onChange,isFocused);
+    }
+    //default to text input
+    return buildTextInput(name,onChange,isFocused);
 }
 
 const buildInput = (type: string, name: string, onChange: (value: any) => void, isFocused : boolean) => {

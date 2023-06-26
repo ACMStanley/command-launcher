@@ -33,7 +33,7 @@ export const AutoFocusedInput = ({
     //stops vertical arrow keys from moving text cursor, so that they can be used for navigation
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-            event.preventDefault();
+            // event.preventDefault();
         }
     }
 

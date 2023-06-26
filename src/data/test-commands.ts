@@ -27,7 +27,7 @@ export const DEFAULT_COMMANDS: ICommand[] = [
         name: "testError",
         inputSchema: z.object({}),
         execute: async () => {
-            await setTimeout(() => {}, 1000);
+            await new Promise(resolve => setTimeout(resolve, 1000));
             throw new Error("This is the error message");
         }
     }
