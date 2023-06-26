@@ -36,7 +36,6 @@ const buildDateInput = (name: string, onChange: (value: any) => void, isFocused 
     const handleChange = (stringValue: string) => {
         const date = new Date(stringValue);
         onChange(date);
-        console.log(stringValue);
     }
     return buildInput('date',name,handleChange,isFocused);
 }

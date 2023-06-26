@@ -3,9 +3,10 @@ import { useEffect } from "react";
 export const useKeyEvent = (key: string, callback: () => void) => {
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
-            console.log(event.key);
             if (event.key === key) {
                 callback();
+                //stop default behaviour of key
+                event.preventDefault();
             }
         };
         window.addEventListener("keydown", handleKeyDown);
