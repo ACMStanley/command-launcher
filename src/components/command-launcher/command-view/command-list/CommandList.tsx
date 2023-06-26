@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import styles from './CommandList.module.scss';
-import { CommandLauncherContext, ICommandDescription } from '../../CommandLauncherContext';
+import { CommandLauncherContext } from '../../CommandLauncherContext';
 import { useKeyEvent } from '../../../../hooks/useKeyEvent';
 import { sortAndFilterCommands } from './utils';
 
