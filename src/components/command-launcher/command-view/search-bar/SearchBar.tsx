@@ -3,10 +3,18 @@ import styles from './SearchBar.module.scss';
 import { CommandLauncherContext } from '../../CommandLauncherContext';
 import { AutoFocusedInput } from '../../../common/AutoFocusedInput';
 
-export const SearchBar = () => {
+interface ISearchBarProps {
+    isFocused: boolean;
+}
 
-    const { setFilter } = useContext(CommandLauncherContext);
-    
+export const SearchBar = ({
+    isFocused
+}: ISearchBarProps) => {
+
+    const {
+        setFilter,
+    } = useContext(CommandLauncherContext);
+
     //clear filter when component unmounts
     useEffect(() => {
         return setFilter("");
@@ -18,7 +26,7 @@ export const SearchBar = () => {
 
     return (
         <div className={styles.searchBar}>
-            <AutoFocusedInput type="text" className={styles.textInput} onChange={handleInputChange} placeholder='Start Typing...' isFocused={true}/>
+            <AutoFocusedInput type="text" className={styles.textInput} onChange={handleInputChange} placeholder='Start Typing...' isFocused={isFocused} />
         </div>
     )
 };

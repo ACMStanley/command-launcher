@@ -1,7 +1,10 @@
+@import '../../../../style/vars';
+
 .searchBar {
     display: flex;
     height: 64px;
     padding-bottom:10px;
+    width: 100%;
     
     .textInput{
         border: none;
@@ -12,7 +15,7 @@
         line-height: 100%;
         font-family: 'Roboto Flex', sans-serif;
         font-size: 32px;
-        border-bottom: 2px solid grey;
+        color: $primaryFontColor;
     }
 }
 

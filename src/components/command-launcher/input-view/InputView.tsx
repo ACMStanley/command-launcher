@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react';
-import { CommandLauncherContext, ICommandDescription } from '../CommandLauncherContext';
+import { CommandLauncherContext, ICommandMeta } from '../CommandLauncherContext';
 import styles from './InputView.module.scss';
 //@ts-ignore
 import { ReactComponent as BackArrow } from './left-arrow.svg';
@@ -7,7 +7,7 @@ import { InputForm } from './input-form/InputForm';
 import { useKeyEvent } from '../../../hooks/useKeyEvent';
 
 export interface IInputViewProps {
-    selectedCommand: ICommandDescription
+    selectedCommand: ICommandMeta
 }
 
 export const InputView = ({

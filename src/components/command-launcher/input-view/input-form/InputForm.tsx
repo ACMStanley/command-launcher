@@ -3,11 +3,11 @@ import styles from './InputForm.module.scss';
 import { ZodType, z, ZodObject } from 'zod';
 import { useKeyEvent } from '../../../../hooks/useKeyEvent';
 import { buildZodInput } from './utils';
-import { CommandLauncherContext, ICommandDescription } from '../../CommandLauncherContext';
+import { CommandLauncherContext, ICommandMeta } from '../../CommandLauncherContext';
 import { fromZodError } from 'zod-validation-error'
 
 interface InputFormProps {
-    selectedCommand: ICommandDescription
+    selectedCommand: ICommandMeta
 }
 
 export const InputForm = ({

@@ -12,16 +12,19 @@ export const DEFAULT_COMMANDS: ICommand[] = [
         name: "createUser",
         inputSchema: createUserSchema,
         execute: createDummyTask<z.infer<typeof createUserSchema>>(1000),
+        description: "Creates a new user."
     },
     {
         name: "updateUser",
         inputSchema: updateUserSchema,
         execute: createDummyTask<z.infer<typeof updateUserSchema>>(2000),
+        description: "Updates an existing user."
     },
     {
         name: "deleteUser",
         inputSchema: deleteUserSchema,
         execute: createDummyTask<z.infer<typeof deleteUserSchema>>(1000),
+        description: "Deletes an existing user."
     },
     {
         name: "testError",
@@ -29,6 +32,7 @@ export const DEFAULT_COMMANDS: ICommand[] = [
         execute: async () => {
             await new Promise(resolve => setTimeout(resolve, 1000));
             throw new Error("This is the error message");
-        }
+        },
+        description: "Throws an error."
     }
 ];

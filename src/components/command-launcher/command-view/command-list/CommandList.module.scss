@@ -1,6 +1,4 @@
 .commandList {
-    height: 1000px;
-    max-height: 66vh;
     display: flex;
 
     ol{
@@ -8,13 +6,14 @@
         list-style-type: none;
         padding: 0;
         margin: 0;
+        
         .commandItem {
-            font-size: 32px;
+            font-size: 22px;
         }
 
         .selectedCommandItem {
             @extend .commandItem;
-            background-color: #e0e0e0;
+            background-color: #464646;
         }
     }
 

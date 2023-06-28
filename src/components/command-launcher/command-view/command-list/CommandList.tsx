@@ -1,18 +1,34 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import styles from './CommandList.module.scss';
 import { CommandLauncherContext } from '../../CommandLauncherContext';
 import { useKeyEvent } from '../../../../hooks/useKeyEvent';
 import { sortAndFilterCommands } from './utils';
+import { enableCallback } from '../../../common/utils';
 
-export const CommandList = () => {
+interface ICommandListProps {
+    isFocused: boolean;
+}
+
+export const CommandList = ({
+    isFocused
+}: ICommandListProps) => {
     const {
         commands: rawCommands,
         filter,
-        setSelectedCommand
+        setHighlightedCommand,
+        selectCommand,
+        selectedCommand
     } = useContext(CommandLauncherContext);
 
-    const [commandIndex, setCommandIndex] = useState(0);
+    const [commandIndex, setCommandIndex ] = useState(0);
     const commands = sortAndFilterCommands(rawCommands, filter);
+
+    useEffect(() => {
+        const command = commands[commandIndex];
+        const index = rawCommands.indexOf(command);
+        setHighlightedCommand(index);
+    }, [commandIndex]);
+    
 
     // If the command index is out of bounds, set it to the last command
     if (commands.length <= commandIndex && commandIndex > 0) {
@@ -37,16 +53,16 @@ export const CommandList = () => {
         }
     }
 
-    const selectCommand = () => {
-        if (commands.length > 0) {
-            const index = rawCommands.findIndex(command => command.name === commands[commandIndex].name);
-            setSelectedCommand(index);
+    const handleEnter = () => {
+        //only select a command if one is not already selected
+        if (selectedCommand == null){
+            selectCommand();
         }
     }
 
-    useKeyEvent("ArrowUp", decCommandIndex);
-    useKeyEvent("ArrowDown", incSelectedCommandIndex);
-    useKeyEvent("Enter", selectCommand);
+    useKeyEvent("ArrowUp", enableCallback(decCommandIndex,isFocused));
+    useKeyEvent("ArrowDown", enableCallback(incSelectedCommandIndex,isFocused));
+    useKeyEvent("Enter", handleEnter);
 
     return (
         <div className={styles.commandList}>

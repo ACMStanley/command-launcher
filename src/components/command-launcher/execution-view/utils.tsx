@@ -1,7 +1,7 @@
-import { ICommandDescription } from "../CommandLauncherContext";
+import { ICommandMeta } from "../CommandLauncherContext";
 import styles from './ExecutionView.module.scss';
 
-export const buildErrorView = (command: ICommandDescription, error: Error) => {
+export const buildErrorView = (command: ICommandMeta, error: Error) => {
     return (
         <>
             Error executing {command.name}:
@@ -12,7 +12,7 @@ export const buildErrorView = (command: ICommandDescription, error: Error) => {
     )
 }
 
-export const buildSuccessfulView = (command: ICommandDescription, result: any) => {
+export const buildSuccessfulView = (command: ICommandMeta, result: any) => {
     const isResultPresent = result != undefined;
     return (
         <>

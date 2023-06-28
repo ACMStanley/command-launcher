@@ -1,10 +1,13 @@
 import { createContext, useState } from 'react';
 import { ICommand } from '../../command/command';
-import { SafeParseReturnType, ZodObject } from 'zod';
+import { SafeParseReturnType, ZodObject, z } from 'zod';
+import { commandToMeta } from './utils';
 
-export interface ICommandDescription {
+//Just an ICommand without access to the execute method
+export interface ICommandMeta {
     name: string;
     inputSchema: ZodObject<any>
+    description: string;
 }
 
 export type ExecutionStatus = {
@@ -12,22 +15,24 @@ export type ExecutionStatus = {
     command: null
 } | {
     status: 'EXECUTING',
-    command: ICommandDescription
+    command: ICommandMeta
 } | {
     status: 'SUCCESS',
-    command: ICommandDescription
+    command: ICommandMeta
     result: object | void
 } | {
     status: 'ERROR',
-    command: ICommandDescription
+    command: ICommandMeta
     error: Error
 }
 
 interface ICommandLauncherContextType {
-    commands: ICommandDescription[];
-    selectedCommand: ICommandDescription | null;
-    setSelectedCommand: (index: number) => void;
+    commands: ICommandMeta[];
+    selectedCommand: ICommandMeta | null;
+    highlightedCommand: ICommandMeta | null;
+    setHighlightedCommand: (index: number) => void;
     executeSelectedCommand: (input: any) => SafeParseReturnType<any, any>;
+    selectCommand: () => void;
     filter: string;
     setFilter: (filter: string) => void;
     executionStatus: ExecutionStatus;
@@ -39,7 +44,8 @@ export const CommandLauncherContext = createContext<ICommandLauncherContextType>
     filter: "",
     setFilter: () => { },
     selectedCommand: null,
-    setSelectedCommand: () => { },
+    highlightedCommand: null,
+    setHighlightedCommand: () => { },
     executeSelectedCommand: () => ({
         data: null,
         success: true
@@ -48,7 +54,8 @@ export const CommandLauncherContext = createContext<ICommandLauncherContextType>
         status: 'IDLE',
         command: null
     },
-    returnHome: () => { }
+    returnHome: () => { },
+    selectCommand: () => { }
 });
 
 interface ICommandLauncherProviderProps {
@@ -61,35 +68,22 @@ export const CommandLauncherProvider = ({
     commands: rawCommands
 }: ICommandLauncherProviderProps) => {
     const [filter, setFilter] = useState("");
-    const [_selectedCommand, _setSelectedCommand] = useState<ICommand | null>(null);
-    const [selectedCommandDescription, _setSelectedCommandDescription] = useState<ICommandDescription | null>(null);
+    const [selectedCommand, setSelectedCommand] = useState<ICommand | null>(null);
     const [status, setStatus] = useState<ExecutionStatus>({
         status: 'IDLE',
         command: null
     });
+    const [highlightedCommand, setHighlightedCommand] = useState<ICommand | null>(null);
 
-    const setSelectedCommand = (command: ICommand | null) => {
-        _setSelectedCommand(command);
-
-        if(command == null) {
-            _setSelectedCommandDescription(null);
-        }
-        else{
-            _setSelectedCommandDescription({
-                name: command.name,
-                inputSchema: command.inputSchema
-            });
-        }
-    };
-
-    const setSelectedCommandByIndex = (index: number) => {
+    const setHighlightedCommandByIndex = (index: number) => {
         const command = rawCommands[index];
-        setSelectedCommand(command);
+        setHighlightedCommand(command);
     };
 
-    const commandDescriptions = rawCommands.map(command => ({
+    const commandMetas = rawCommands.map(command => ({
         name: command.name,
-        inputSchema: command.inputSchema
+        inputSchema: command.inputSchema,
+        description: command.description
     }));
 
     const handleExecution = async (command: ICommand, input: any) => {
@@ -114,18 +108,25 @@ export const CommandLauncherProvider = ({
         }
     };
 
+    const selectCommand = () => {
+        if (highlightedCommand == null || selectCommand == null || status.status === 'EXECUTING') {
+            return;
+        }
+        setSelectedCommand(highlightedCommand);
+    };
+
     const executeSelectedCommand = (input: any): SafeParseReturnType<any, any> => {
-        if (_selectedCommand == null) {
+        if (selectedCommand == null) {
             return {
                 data: null,
                 success: true
             };
         }
 
-        const parseResult = _selectedCommand.inputSchema.safeParse(input);
+        const parseResult = selectedCommand.inputSchema.safeParse(input);
 
         if (parseResult.success) {
-            handleExecution(_selectedCommand, parseResult.data);
+            handleExecution(selectedCommand, parseResult.data);
             setSelectedCommand(null);
         }
 
@@ -149,14 +150,16 @@ export const CommandLauncherProvider = ({
     }
 
     const value: ICommandLauncherContextType = {
-        commands: commandDescriptions,
+        commands: commandMetas,
         filter,
         setFilter,
-        selectedCommand: selectedCommandDescription,
-        setSelectedCommand: setSelectedCommandByIndex,
+        selectedCommand: selectedCommand ? commandToMeta(selectedCommand) : null,
+        setHighlightedCommand: setHighlightedCommandByIndex,
         executeSelectedCommand,
         executionStatus: status,
-        returnHome
+        returnHome,
+        selectCommand,
+        highlightedCommand
     };
 
     return (

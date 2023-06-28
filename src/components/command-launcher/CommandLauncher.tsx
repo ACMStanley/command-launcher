@@ -14,13 +14,18 @@ export const CommandLauncher = () => {
         selectedView = <ExecutionView/>;
     } else if (selectedCommand) {
         selectedView = <InputView selectedCommand={selectedCommand}/>;
-    } else {
-        selectedView = <CommandView />;
+    } else{
+        selectedView = <></>;
     }
 
     return (
         <div className={styles.commandLauncher}>
-            {selectedView}
+            <div className={styles.commandView}>
+                <CommandView />
+            </div>
+            <div className={styles.actionView}>
+                {selectedView}
+            </div>
         </div>
     )
 };
