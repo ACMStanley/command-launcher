@@ -1,17 +1,19 @@
+@import '../../../style/vars';
+
 .executionView {
     display: flex;
     flex-direction: column;
     height: 100%;
     width: 100%;
     justify-content: start;
-    font-size: 32px;
+    font-size: $standardFontSize;
 
 
     .error {
         .errorMessage {
             margin: 10px;
-            color: red;
-            font-size: 22px;
+            color: $errorColor;
+            font-size: $standardFontSize;
             font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
                 monospace;
         }
@@ -19,7 +21,7 @@
 
     .success {
         .result {
-            font-size: 22px;
+            font-size: $standardFontSize;
         }
     }
 }

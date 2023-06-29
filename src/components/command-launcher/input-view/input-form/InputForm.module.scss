@@ -1,15 +1,22 @@
+@import '../../../../style/vars';
+
 .inputForm {
     display: flex;
     flex-direction: column;
-
+    width: 100%;
+    
     .inputField {
-        font-size: 28px;
+        padding-left: 10px;
+        padding-right: $horizontalEdgePadding;
         display: flex;
+        font-size: $standardFontSize;
+        display: $standardFontSize;
         justify-content: space-between;
-        align-items: center;
 
         input {
-            font-size:28px;
+            color: $primaryFontColor;
+            color-scheme: dark;
+            font-size: $standardFontSize;
             font-family: 'Roboto Flex', 'sans-serif';
             border: none;
             outline: none;
@@ -19,13 +26,13 @@
 
     .selectedInputField {
         @extend .inputField;
-        background-color: #e0e0e0;
+        background-color: $highlightColor;
     }
 
     .validationError {
         margin-top: 10px;
-        background-color: rgb(230, 69, 69);
-        color: white;
+        background-color: $errorColor;
+        color: $primaryFontColor;
         padding: 5px;
         border-radius: 5px;
     }

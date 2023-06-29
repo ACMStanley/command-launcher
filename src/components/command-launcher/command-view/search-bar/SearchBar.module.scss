@@ -1,8 +1,12 @@
 @import '../../../../style/vars';
 
+@import '../../../../style/vars';
+
+@import '../../../../style/vars';
+
 .searchBar {
     display: flex;
-    height: 64px;
+    height: 28px;
     padding-bottom:10px;
     width: 100%;
     
@@ -14,7 +18,7 @@
         height: 100%;
         line-height: 100%;
         font-family: 'Roboto Flex', sans-serif;
-        font-size: 32px;
+        font-size: $standardFontSize;
         color: $primaryFontColor;
     }
 }

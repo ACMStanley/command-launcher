@@ -10,11 +10,11 @@ export const DecsriptionView = ({
 }: IDescriptionViewProps) => {
     return (
         <div className={styles.descriptionView}>
-            <div className={styles.title}>
-                {command.name}
-            </div>
-            <div className={styles.description}>
-                {command.description}
+            <div className={styles.contentWrapper}>
+                <span className={styles.title}>{command.name}</span>
+                <div className={styles.description}>
+                    {command.description}
+                </div>
             </div>
         </div>
     )

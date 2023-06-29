@@ -12,12 +12,12 @@ export interface IInputViewProps {
 
 export const InputView = ({
     selectedCommand
-} : IInputViewProps) => {
+}: IInputViewProps) => {
     const { returnHome, executeSelectedCommand } = useContext(CommandLauncherContext);
-    
+
     // If there are no input fields, execute the command immediately
     useEffect(() => {
-        if(Object.keys(selectedCommand.inputSchema.shape).length === 0) {
+        if (Object.keys(selectedCommand.inputSchema.shape).length === 0) {
             executeSelectedCommand({});
         }
     }, [selectedCommand]);

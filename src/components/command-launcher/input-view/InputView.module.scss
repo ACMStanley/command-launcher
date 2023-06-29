@@ -1,17 +1,19 @@
+@import '../../../style/vars';
+
 .inputView {
-    border: 1px solid red;
     .inputHeader{
         display: flex;
         align-items: center;
         justify-content: space-between;
-        font-size: 32px;
-        margin-bottom: 5px;
+        font-size: $titleFontSize;
+        padding: 5px;
+        padding-right: $horizontalEdgePadding;
+        border-bottom: 2px solid grey;
 
         .backArrowWrapper {
             display: flex;
             align-items: center;
             .backArrow {
-                
                 height: 20px;
             }
             .buttonLabel {

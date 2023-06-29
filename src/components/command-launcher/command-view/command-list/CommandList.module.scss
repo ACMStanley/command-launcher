@@ -1,3 +1,5 @@
+@import '../../../../style/vars';
+
 .commandList {
     display: flex;
 
@@ -8,14 +10,12 @@
         margin: 0;
         
         .commandItem {
-            font-size: 22px;
+            font-size: $standardFontSize;
         }
 
         .selectedCommandItem {
             @extend .commandItem;
-            background-color: #464646;
+            background-color: $highlightColor;
         }
     }
-
-    
 }
