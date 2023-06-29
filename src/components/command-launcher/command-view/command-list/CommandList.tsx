@@ -24,9 +24,8 @@ export const CommandList = ({
     const commands = sortAndFilterCommands(rawCommands, filter);
 
     useEffect(() => {
-        const command = commands[commandIndex];
-        const index = rawCommands.indexOf(command);
-        setHighlightedCommand(index);
+        const commandName = commands[commandIndex].name;
+        setHighlightedCommand(commandName);
     }, [commandIndex]);
     
 

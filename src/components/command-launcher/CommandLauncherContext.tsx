@@ -1,6 +1,6 @@
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { ICommand } from '../../command/command';
-import { SafeParseReturnType, ZodObject, z } from 'zod';
+import { SafeParseReturnType, ZodObject } from 'zod';
 import { commandToMeta } from './utils';
 
 //Just an ICommand without access to the execute method
@@ -30,7 +30,7 @@ interface ICommandLauncherContextType {
     commands: ICommandMeta[];
     selectedCommand: ICommandMeta | null;
     highlightedCommand: ICommandMeta | null;
-    setHighlightedCommand: (index: number) => void;
+    setHighlightedCommand: (name: string) => void;
     executeSelectedCommand: (input: any) => SafeParseReturnType<any, any>;
     selectCommand: () => void;
     filter: string;
@@ -75,8 +75,22 @@ export const CommandLauncherProvider = ({
     });
     const [highlightedCommand, setHighlightedCommand] = useState<ICommand | null>(null);
 
-    const setHighlightedCommandByIndex = (index: number) => {
-        const command = rawCommands[index];
+    //enforce that command names are unique so the can be used as IDs
+    useEffect(() => {
+        const commandNames = rawCommands.map(command => command.name.toUpperCase());
+        const uniqueCommandNames = new Set(commandNames);
+        if(commandNames.length !== uniqueCommandNames.size){
+            throw new Error('All command names must be unique!');
+        }
+    },[rawCommands])
+
+    const setHighlightedCommandByName = (name: string) => {
+        const command = rawCommands.find(command => command.name === name);
+
+        if(command == null){
+            throw new Error(`Command '${name}' does not exist in the current context.`);
+        }
+
         setHighlightedCommand(command);
     };
 
@@ -154,7 +168,7 @@ export const CommandLauncherProvider = ({
         filter,
         setFilter,
         selectedCommand: selectedCommand ? commandToMeta(selectedCommand) : null,
-        setHighlightedCommand: setHighlightedCommandByIndex,
+        setHighlightedCommand: setHighlightedCommandByName,
         executeSelectedCommand,
         executionStatus: status,
         returnHome,
