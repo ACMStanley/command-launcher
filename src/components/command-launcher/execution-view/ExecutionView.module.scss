@@ -1,5 +1,7 @@
 @import '../../../style/vars';
 
+$outputFont: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+
 .executionView {
     display: flex;
     flex-direction: column;
@@ -7,21 +9,24 @@
     width: 100%;
     justify-content: start;
     font-size: $standardFontSize;
-
+    padding: $horizontalEdgePadding;
+    pre {
+        white-space: pre-wrap;
+    }
 
     .error {
         .errorMessage {
             margin: 10px;
             color: $errorColor;
-            font-size: $standardFontSize;
-            font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-                monospace;
+            font-size: $outputFontSize;
+            font-family: $outputFont;
         }
     }
 
     .success {
         .result {
-            font-size: $standardFontSize;
+            font-size: $outputFontSize;
+            font-family: $outputFont;
         }
     }
 }

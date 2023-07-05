@@ -1,8 +1,9 @@
 import { useContext } from "react";
 import { CommandLauncherContext } from "../CommandLauncherContext";
 import styles from './ExecutionView.module.scss';
-import { buildErrorView, buildSuccessfulView } from "./utils";
 import { useKeyEvent } from "../../../hooks/useKeyEvent";
+import { ErrorResult } from "./ErrorResult";
+import { SuccessResult } from "./SuccessResult";
 
 export const ExecutionView = () => {
     const { executionStatus, returnHome} = useContext(CommandLauncherContext);
@@ -26,22 +27,18 @@ export const ExecutionView = () => {
     useKeyEvent("Escape", exitView);
     useKeyEvent("Enter", exitView);
 
-    let view;
-    let style;
+    let resultView;
     if(status === 'EXECUTING') {
-        view = `Executing ${executionStatus.command.name}...`;
-        style = styles.executing;
+        resultView = `Executing ${executionStatus.command.name}...`;
     } else if (status === 'ERROR') {
-        view = buildErrorView(executionStatus.command, executionStatus.error);
-        style = styles.error;
+        resultView = <ErrorResult command={executionStatus.command} error={executionStatus.error}/>;
     } else if (status === 'SUCCESS') {
-        view = buildSuccessfulView(executionStatus.command, executionStatus.result);
-        style = styles.success;
+        resultView = <SuccessResult command={executionStatus.command} result={executionStatus.result}/>;
     }
 
     return (
         <div className={styles.executionView}>
-            <span className={style}>{view}</span>
+            {resultView}
         </div>
     )
 }

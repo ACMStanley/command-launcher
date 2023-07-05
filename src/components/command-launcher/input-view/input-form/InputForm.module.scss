@@ -32,8 +32,9 @@
     .validationError {
         margin-top: 10px;
         background-color: $errorColor;
-        color: $primaryFontColor;
+        color: white;
         padding: 5px;
+        margin: 5px;
         border-radius: 5px;
     }
 }
